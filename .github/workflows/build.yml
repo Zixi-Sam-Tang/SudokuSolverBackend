@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+env:
+  Configuration: Release
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: | 
+          7.0.x
+
+    - run: dotnet tool restore
+
+    - name: Restore dependencies
+      run: dotnet restore SudokuSolver
+    - name: Build
+      run: dotnet build SudokuSolver --no-restore
+    - name: Publish
+      run: dotnet publish SudokuSolver -o publish --no-build
+    - name: Create Zip File
+      uses: papeloto/action-zip@v1
+      with:
+        files: publish
+        dest: publish.zip
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: published
+        path: publish.zip
+    # - run: sleep 100
