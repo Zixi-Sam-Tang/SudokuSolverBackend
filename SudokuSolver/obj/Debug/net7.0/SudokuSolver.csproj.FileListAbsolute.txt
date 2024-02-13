@@ -190,3 +190,4 @@ D:\Sam\Codes\SudokuSolverBackEnd\SudokuSolver\obj\Debug\net7.0\refint\SudokuSolv
 D:\Sam\Codes\SudokuSolverBackEnd\SudokuSolver\obj\Debug\net7.0\SudokuSolver.pdb
 D:\Sam\Codes\SudokuSolverBackEnd\SudokuSolver\obj\Debug\net7.0\SudokuSolver.genruntimeconfig.cache
 D:\Sam\Codes\SudokuSolverBackEnd\SudokuSolver\obj\Debug\net7.0\ref\SudokuSolver.dll
+D:\Sam\Codes\SudokuSolverBackEnd\SudokuSolver\obj\Debug\net7.0\SudokuSolver.sourcelink.json
