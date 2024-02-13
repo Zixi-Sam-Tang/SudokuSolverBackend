@@ -13,15 +13,16 @@ namespace SudokuSolver.Controllers
     public class SudokuPuzzleController : ControllerBase
     {
         private readonly IOptions<DbConfigOption> dbConfig;
+        private readonly ISqlUtil sqlUtil;
 
-        public SudokuPuzzleController(IOptions<DbConfigOption> dbConfig)
+        public SudokuPuzzleController(IOptions<DbConfigOption> dbConfig, ISqlUtil sqlUtil)
         {
             this.dbConfig = dbConfig;
+            this.sqlUtil = sqlUtil;
         }
 
-        // GET: SudokuPuzzleController
         [HttpGet("/Puzzles")]
-        public List<SudokuModel> GetPuzzles(ISqlUtil sqlUtil, [FromQuery] int lowerBound)
+        public ActionResult<List<SudokuModel>> GetPuzzles([FromQuery] int lowerBound)
         {
             var result = new List<SudokuModel>();
 
@@ -48,22 +49,27 @@ namespace SudokuSolver.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return StatusCode(500);
             }
-            return result;
+
+            return Ok(result);
         }
 
-        [HttpGet("/PuzzleCount")]
-        public long GetPuzzleTotal()
+        [HttpGet("/Puzzles/Count")]
+        public ActionResult<long> GetPuzzleTotal()
         {
             string connectionString = dbConfig.Value.PuzzleDbConString;
 
             long result = 0;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
-                SqlCommand cmd = new ("SELECT COUNT(1) cnt FROM SudokuPuzzles (NOLOCK)", connection);
-                cmd.CommandTimeout = 2000;
+                SqlCommand cmd = new("SELECT COUNT(1) cnt FROM SudokuPuzzles (NOLOCK)", connection)
+                {
+                    CommandTimeout = 2000
+                };
+
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.HasRows)
@@ -73,11 +79,11 @@ namespace SudokuSolver.Controllers
                         result = reader.GetInt32(0);
                     }
                 }
-                reader.Close();
 
+                reader.Close();
             }
 
-            return result;
+            return Ok(result);
         }
     }
 }
