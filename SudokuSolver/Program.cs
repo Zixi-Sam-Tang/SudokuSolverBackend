@@ -1,3 +1,4 @@
+using SudokuSolver.Data;
 using SudokuSolver.Options;
 using SudokuSolver.SqlUtils;
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<DbConfigOption>(builder.Configuration.GetSection(DbConfigOption.Section));
 builder.Services.AddTransient<ISqlUtil, SqlUtil>();
+builder.Services.AddTransient<SudokuSolverContext>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
