@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SudokuSolver.Data;
 
@@ -11,9 +12,11 @@ using SudokuSolver.Data;
 namespace SudokuSolver.Migrations
 {
     [DbContext(typeof(SudokuSolverContext))]
-    partial class SudokuSolverContextModelSnapshot : ModelSnapshot
+    [Migration("20240219173653_TestingIdentity")]
+    partial class TestingIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

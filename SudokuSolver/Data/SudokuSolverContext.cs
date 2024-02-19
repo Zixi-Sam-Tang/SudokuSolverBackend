@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SudokuSolver.Models;
 using SudokuSolver.Options;
 
 namespace SudokuSolver.Data
 {
-    public class SudokuSolverContext : DbContext
+    public class SudokuSolverContext :  IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; } = null!;
+        //public DbSet<User> Users { get; set; } = null!;
         public DbSet<SudokuModel> Puzzles { get; set; } = null!;
 
         private readonly IOptions<DbConfigOption> dbConfig;

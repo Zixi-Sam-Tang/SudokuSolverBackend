@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SudokuSolver.Data;
@@ -21,7 +22,7 @@ namespace SudokuSolver.Controllers
             this.db = db;
         }
 
-        [HttpGet("/Puzzles")]
+        [HttpGet("/puzzles")]
         public async Task<ActionResult<List<SudokuModel>>> GetPuzzles([FromQuery] int lowerBound)
         {
             List<SudokuModel> result;
@@ -42,7 +43,7 @@ namespace SudokuSolver.Controllers
             return Ok(result);
         }
 
-        [HttpGet("/Puzzles/Count")]
+        [HttpGet("/puzzles/count")]
         public async Task<ActionResult<long>> GetPuzzleTotal()
         {
             int result = 0;
@@ -59,7 +60,8 @@ namespace SudokuSolver.Controllers
             return Ok(result);
         }
 
-        [HttpPost("/Puzzles")]
+        [Authorize]
+        [HttpPost("/puzzles")]
         public async Task<ActionResult> PostPuzzle([FromBody] SudokuDto sudokuDto)
         {
             try

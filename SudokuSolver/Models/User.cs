@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace SudokuSolver.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
-        public string UserName { get; set; } = null!;
-        public string Password { get; set; } = null!;
         public ICollection<SudokuModel> PuzzlesSolved { get; set; } = null!;
     }
 }
